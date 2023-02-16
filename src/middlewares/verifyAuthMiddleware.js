@@ -6,9 +6,13 @@ const verifyAuthMiddleware = (req, res, next) => {
     if (err) {
       return res.status(401).json({ status: "unauthorized" });
     } else {
-      req.headers.email = decoded.data;
+      let data = decoded.data.split(" ");
+      req.headers.email = data[0];
+      req.headers.userId = data[1];
+
       console.log(req.headers.email);
-      console.log(req.headers.isAdmin);
+      console.log(req.headers.userId);
+
       next();
     }
   });

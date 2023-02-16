@@ -10,9 +10,10 @@ const userLoginService = async (Request, Response, DataModel) => {
     let encrypt = await bcrypt.compare(enteredPassword, data[0].password);
     let token;
     let refreshToken;
+
     if (encrypt) {
       if (data.length > 0) {
-        token = await createToken(data[0].email);
+        token = await createToken(data[0].email, data[0]._id);
         refreshToken = await generateRefreshToken(data[0].email);
         await DataModel.updateOne(
           { email: email },

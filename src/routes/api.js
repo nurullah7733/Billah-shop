@@ -23,6 +23,7 @@ const {
   updateProduct,
   deleteProduct,
   listProductForGlobal,
+  ratingsProduct,
 } = require("../controllers/products/productController");
 const {
   registration,
@@ -219,6 +220,8 @@ router.get(
   verifyAdminMiddleware,
   deleteProduct
 );
+// ratings product
+router.post("/ratings-product/:id", verifyAuthMiddleware, ratingsProduct);
 
 // -------------------------- Wish List -------------------------------------------------
 router.post("/wishlist", verifyAuthMiddleware, createAndRemoveWishList);
