@@ -1,5 +1,5 @@
 const updateService = async (Request, DataModel) => {
-  let id = Request.params.id;
+  let id = Request.params.id || Request.body.id;
   let reqBody = Request.body;
 
   try {

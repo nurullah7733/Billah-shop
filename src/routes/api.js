@@ -16,6 +16,13 @@ const {
   updateCategory,
 } = require("../controllers/categories/categoryController");
 const {
+  createCoupon,
+  getCoupon,
+  getCouponDetailsById,
+  updateCoupon,
+  deleteCoupon,
+} = require("../controllers/coupon/couponController");
+const {
   createProduct,
   listProduct,
   dropdownListProduct,
@@ -25,6 +32,10 @@ const {
   listProductForGlobal,
   ratingsProduct,
 } = require("../controllers/products/productController");
+const {
+  uploadImages,
+  deleteImages,
+} = require("../controllers/upload/uploadController");
 const {
   registration,
   login,
@@ -40,6 +51,10 @@ const {
   createAndRemoveWishList,
   getWishList,
 } = require("../controllers/wishList/wishListController");
+const {
+  uploadPhoto,
+  productImgResize,
+} = require("../middlewares/uploadImgMiddleware");
 const verifyAdminMiddleware = require("../middlewares/verifyAdminMiddleware");
 const verifyAuthMiddleware = require("../middlewares/verifyAuthMiddleware");
 
@@ -230,5 +245,46 @@ router.get(
   verifyAuthMiddleware,
   getWishList
 );
+
+// -------------------------- Coupon code -------------------------------------------------
+router.post(
+  "/coupon",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  createCoupon
+);
+router.get(
+  "/all-coupon/:pageNo/:perPage/:searchKeyword",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  getCoupon
+);
+router.get(
+  "/coupon-details/:id",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  getCouponDetailsById
+);
+router.post(
+  "/update-coupon",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  updateCoupon
+);
+router.get(
+  "/delete-coupon/:id",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  deleteCoupon
+);
+
+// ------------------------- Upload Img -------------------------------------------------------------
+router.post(
+  "/upload-img",
+  uploadPhoto.array("images", 10),
+  productImgResize,
+  uploadImages
+);
+router.get("/delete-img/:id", deleteImages);
 
 module.exports = router;

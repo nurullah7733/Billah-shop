@@ -23,7 +23,7 @@ var productSchema = mongoose.Schema(
     },
     quantity: { type: Number, required: [true, "Quantity is required"] },
     sold: { type: Number, default: 0 },
-    img: { type: Array },
+    img: [],
     color: { type: String },
     ratings: [
       { star: Number, comment: String, author: mongoose.Schema.Types.ObjectId },
