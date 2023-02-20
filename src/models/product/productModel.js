@@ -28,7 +28,7 @@ var productSchema = mongoose.Schema(
     ratings: [
       { star: Number, comment: String, author: mongoose.Schema.Types.ObjectId },
     ],
-    totalRating: [{ type: String, default: 0 }],
+    totalRating: { type: Number, default: 0 },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
     },

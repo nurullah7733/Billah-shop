@@ -149,6 +149,39 @@ exports.ratingsProduct = async (req, res) => {
       );
     }
 
+    let allProductRating = await ProductModel.aggregate([
+      { $match: queryObject },
+      {
+        $project: {
+          _id: 0,
+          name: 0,
+          slug: 0,
+          description: 0,
+          price: 0,
+          quantity: 0,
+          sold: 0,
+          img: 0,
+          color: 0,
+          categoryId: 0,
+          brandId: 0,
+          createdAt: 0,
+          updatedAt: 0,
+        },
+      },
+    ]);
+    let totalRating = allProductRating[0].ratings.length;
+    let totalRatingSum = allProductRating[0].ratings.reduce(
+      (prev, curr) => prev + curr.star,
+      0
+    );
+
+    totalRating = Math.floor(totalRatingSum / totalRating);
+
+    await ProductModel.findOneAndUpdate(
+      { _id: productId },
+      { totalRating: totalRating }
+    );
+
     return res.status(200).json({ status: "success", data: updateRating });
   } catch (error) {
     return res.status(400).json({ status: "fail", data: error.toString() });
