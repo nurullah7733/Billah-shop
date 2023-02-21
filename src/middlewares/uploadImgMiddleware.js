@@ -26,16 +26,20 @@ exports.uploadPhoto = multer({
   fileFilter: multerFilter,
   limits: { fileSize: 1000000 },
 });
-
+sharp.cache(false);
 exports.productImgResize = async (req, res, next) => {
   if (!req.files) return next();
   req.files.map(async (file) => {
-    await sharp(file.path)
-      .resize(300, 300)
-      .toFormat("jpeg")
-      .jpeg({ quality: 90 })
-      .toFile(`/public/images/${file.filename}`);
-    // fs.unlinkSync(`../public/images/${file.filename}`);
+    try {
+      await sharp(file.path)
+        .resize(300, 300)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`${__dirname}/../public/images/products/${file.filename}`);
+      // fs.unlinkSync(`../public/images/${file.filename}`);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   next();
