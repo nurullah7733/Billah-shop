@@ -1,39 +1,41 @@
 const fs = require("fs");
-const sharp = require("sharp");
+
 const {
-  uploadMultipleImages,
-  deleteCloudinaryImg,
+  cloudinaryUploadImg,
+  cloudinaryDeleteImg,
 } = require("../../utils/cloudinary");
 
-exports.uploadImages = async (req, res) => {
+const uploadImages = async (req, res) => {
   try {
-    let cloudinaryUploadedImgUrl;
+    const uploader = (path) => cloudinaryUploadImg(path, "images");
     const urls = [];
     const files = req.files;
     for (const file of files) {
       const { path } = file;
-      urls.push(path);
+      const newpath = await uploader(path);
+      console.log(newpath, "hi");
+      urls.push(newpath);
+      fs.unlinkSync(path);
     }
-    // console.log(urls);
-
-    cloudinaryUploadedImgUrl = await uploadMultipleImages(urls);
-
-    urls.map((item) => {
-      fs.unlinkSync(item);
+    const images = urls.map((file) => {
+      return file;
     });
-
-    res.status(200).json({ status: "success", data: cloudinaryUploadedImgUrl });
+    res.json(images);
   } catch (error) {
-    res.status(400).json({ status: "fail", data: error.toString() });
+    throw new Error(error);
+  }
+};
+const deleteImages = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleted = cloudinaryDeleteImg(id, "images");
+    res.json({ message: "Deleted" });
+  } catch (error) {
+    throw new Error(error);
   }
 };
 
-exports.deleteImages = async (req, res) => {
-  const id = req.params.id;
-  try {
-    const deleted = await deleteCloudinaryImg(id);
-    res.status(200).json({ status: "success", data: deleted });
-  } catch (error) {
-    res.status(400).json({ status: "fail", data: error.toString() });
-  }
+module.exports = {
+  uploadImages,
+  deleteImages,
 };
