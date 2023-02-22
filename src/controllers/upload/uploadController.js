@@ -1,4 +1,5 @@
 const fs = require("fs");
+const sharp = require("sharp");
 const {
   uploadMultipleImages,
   deleteCloudinaryImg,
@@ -13,7 +14,8 @@ exports.uploadImages = async (req, res) => {
       const { path } = file;
       urls.push(path);
     }
-    console.log(urls);
+    // console.log(urls);
+
     cloudinaryUploadedImgUrl = await uploadMultipleImages(urls);
 
     urls.map((item) => {

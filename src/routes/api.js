@@ -279,12 +279,7 @@ router.get(
 );
 
 // ------------------------- Upload Img -------------------------------------------------------------
-router.post(
-  "/upload-img",
-  uploadPhoto.array("images", 10),
-  productImgResize,
-  uploadImages
-);
+router.post("/upload-img", uploadPhoto.array("images", 10), uploadImages);
 router.get("/delete-img/:id", deleteImages);
 
 module.exports = router;
