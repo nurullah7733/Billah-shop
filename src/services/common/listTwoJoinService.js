@@ -9,11 +9,12 @@ const listTwoJoinService = async (
   let perPage = Number(Request.params.perPage);
   let searchKeyword = Request.params.searchKeyword;
   let skipRow = (pageNo - 1) * perPage;
-
+  let email = Request.headers.email;
   try {
     let data;
     if (searchKeyword !== "0") {
       data = await DataModel.aggregate([
+        { $match: { email: email } },
         joinStage1,
         joinStage2,
         { $match: { $or: searchArray } },
@@ -26,9 +27,9 @@ const listTwoJoinService = async (
       ]);
     } else {
       data = await DataModel.aggregate([
+        { $match: { email: email } },
         joinStage1,
         joinStage2,
-        { $match: { $expr: { $ne: ["$events", []] } } },
         {
           $facet: {
             total: [{ $count: "count" }],

@@ -1,4 +1,4 @@
-const listTwoJoinServiceForProductsGlobal = async (
+const listTwoJoinServiceForGlobal = async (
   Request,
   DataModel,
   searchArray,
@@ -290,4 +290,4 @@ const listTwoJoinServiceForProductsGlobal = async (
   }
 };
 
-module.exports = listTwoJoinServiceForProductsGlobal;
+module.exports = listTwoJoinServiceForGlobal;

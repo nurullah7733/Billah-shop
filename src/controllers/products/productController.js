@@ -6,7 +6,7 @@ const deleteService = require("../../services/common/deleteService");
 const dropdownListService = require("../../services/common/dropdownListService");
 const getServiceById = require("../../services/common/getSerciceById");
 const listTwoJoinService = require("../../services/common/listTwoJoinService");
-const listTwoJoinServiceForProductsGlobal = require("../../services/common/listTwoJoinServiceForProductsGlobal");
+const listTwoJoinServiceForGlobal = require("../../services/common/listTwoJoinServiceForGlobal");
 const updateService = require("../../services/common/updateService");
 
 exports.createProduct = async (req, res) => {
@@ -73,7 +73,7 @@ exports.listProductForGlobal = async (req, res) => {
       as: "brand",
     },
   };
-  let result = await listTwoJoinServiceForProductsGlobal(
+  let result = await listTwoJoinServiceForGlobal(
     req,
     ProductModel,
     searchArray,

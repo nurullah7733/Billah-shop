@@ -29,6 +29,14 @@ const {
   deleteCoupon,
 } = require("../controllers/coupon/couponController");
 const {
+  createOrder,
+  getAllOrder,
+  getAllOrderForAdmin,
+  getAllOrderForUser,
+  getDetailsById,
+  changeOrderStatus,
+} = require("../controllers/order/orderController");
+const {
   createProduct,
   listProduct,
   dropdownListProduct,
@@ -307,5 +315,39 @@ router.post(
   removeCardwhenOrder
 );
 router.get("/delete-card/:id", verifyAuthMiddleware, deleteCard);
+
+// ------------------------- Order -------------------------------------------------------------
+router.post("/create-order", verifyAuthMiddleware, createOrder);
+// get all order for admin only
+router.get(
+  "/get-all-order-for-admin/:pageNo/:perPage/:searchKeyword",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  getAllOrderForAdmin
+);
+// get all order for user only
+router.get(
+  "/get-all-order/:pageNo/:perPage/:searchKeyword",
+  verifyAuthMiddleware,
+  getAllOrderForUser
+);
+
+// get order details for admin only
+router.get(
+  "/get-order-details-for-admin/:id",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  getDetailsById
+);
+
+// get order details for user only
+router.get("/get-order-details/:id", verifyAuthMiddleware, getDetailsById);
+// change orderStatus for Admin
+router.post(
+  "/change-order-status/:id",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  changeOrderStatus
+);
 
 module.exports = router;

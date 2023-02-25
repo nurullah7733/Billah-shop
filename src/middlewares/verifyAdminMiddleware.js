@@ -13,11 +13,13 @@ const verifyAdminMiddleware = async (req, res, next) => {
       next();
     } else {
       req.headers.isAdmin = false;
-      return res.status(400).json({ status: "You are not an admin" });
+      return res.status(401).json({ status: "You are not an admin" });
     }
+    console.log(req.headers.email, "authadmin");
+    console.log(req.headers.userId, "authadmin");
   } catch (error) {
     req.headers.isAdmin = false;
-    return res.status(400).json({ status: "Something went wrong" });
+    return res.status(401).json({ status: "Something went wrong" });
   }
 };
 
