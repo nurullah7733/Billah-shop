@@ -8,6 +8,12 @@ const {
   getBrandDetailsById,
 } = require("../controllers/brands/brandController");
 const {
+  createCard,
+  getCards,
+  removeCardwhenOrder,
+  deleteCard,
+} = require("../controllers/card/cardController");
+const {
   createCateogry,
   listCategory,
   dropdownListCategory,
@@ -45,6 +51,8 @@ const {
   verifyEmail,
   verifyOtp,
   resetPassword,
+  adminLogin,
+  saveUserAddress,
 } = require("../controllers/user/userController");
 const {
   createWishList,
@@ -62,6 +70,7 @@ const verifyAuthMiddleware = require("../middlewares/verifyAuthMiddleware");
 router.post("/registration", registration);
 // login
 router.post("/login", login);
+router.post("/admin-login", adminLogin);
 // user details for user
 router.get("/user-detail-by-user/:id", verifyAuthMiddleware, userDetailsById);
 // user details for Admin
@@ -88,6 +97,9 @@ router.get(
   verifyAdminMiddleware,
   allUser
 );
+
+// save address
+router.post("/save-address/:id", verifyAuthMiddleware, saveUserAddress);
 
 //------------------------------ Reset password----------------------------------------------------------------------------
 // step 01
@@ -281,5 +293,19 @@ router.get(
 // ------------------------- Upload Img -------------------------------------------------------------
 router.post("/upload-img", uploadPhoto.array("images", 10), uploadImages);
 router.get("/delete-img/:id", deleteImages);
+
+// ------------------------- Card -------------------------------------------------------------
+router.post("/create-card", verifyAuthMiddleware, createCard);
+router.get(
+  "/get-cards/:pageNo/:perPage/:searchKeyword",
+  verifyAuthMiddleware,
+  getCards
+);
+router.post(
+  "/remove-card-when-order",
+  verifyAuthMiddleware,
+  removeCardwhenOrder
+);
+router.get("/delete-card/:id", verifyAuthMiddleware, deleteCard);
 
 module.exports = router;

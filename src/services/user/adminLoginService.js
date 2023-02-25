@@ -2,14 +2,16 @@ const bcrypt = require("bcrypt");
 const createToken = require("../../utils/createToken");
 const generateRefreshToken = require("../../utils/refreshToken");
 
-const userLoginService = async (Request, Response, DataModel) => {
+const adminLoginService = async (Request, Response, DataModel) => {
   let email = Request.body.email;
   let enteredPassword = Request.body.password;
   try {
-    let data = await DataModel.aggregate([{ $match: { email: email } }]);
+    let data = await DataModel.aggregate([
+      { $match: { email: email, role: "admin" } },
+    ]);
+
     let token;
     let refreshToken;
-
     if (data.length > 0) {
       let encrypt = await bcrypt.compare(enteredPassword, data[0].password);
       if (encrypt) {
@@ -46,8 +48,8 @@ const userLoginService = async (Request, Response, DataModel) => {
       }
     } else {
       return {
-        status: "Invalid Credentials",
-        data: "User not found!",
+        status: "Invalid Credentials or Your are not an admin",
+        data: "invalid email or password",
       };
     }
   } catch (error) {
@@ -55,4 +57,4 @@ const userLoginService = async (Request, Response, DataModel) => {
   }
 };
 
-module.exports = userLoginService;
+module.exports = adminLoginService;

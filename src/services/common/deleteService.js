@@ -10,7 +10,7 @@ const deleteService = async (Request, DataModel) => {
     let data = await DataModel.deleteMany(query);
     return { status: "success", data };
   } catch (error) {
-    return { status: "success", data: error.toString() };
+    return { status: "fail", data: error.toString() };
   }
 };
 

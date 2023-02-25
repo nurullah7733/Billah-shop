@@ -21,6 +21,10 @@ var productSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    unitPrice: {
+      type: Number,
+      required: true,
+    },
     quantity: { type: Number, required: [true, "Quantity is required"] },
     sold: { type: Number, default: 0 },
     img: [],

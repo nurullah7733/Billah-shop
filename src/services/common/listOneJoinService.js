@@ -17,6 +17,7 @@ const listOneJoinService = async (
         { $match: { email: email } },
         joinStage1,
         { $match: { $or: searchArray } },
+        { $project: { password: 0 } },
         {
           $facet: {
             total: [{ $count: "count" }],
@@ -28,7 +29,7 @@ const listOneJoinService = async (
       data = await DataModel.aggregate([
         { $match: { email: email } },
         joinStage1,
-        { $match: { $expr: { $ne: ["$events", []] } } },
+        { $project: { password: 0 } },
         {
           $facet: {
             total: [{ $count: "count" }],
