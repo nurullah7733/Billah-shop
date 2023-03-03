@@ -7,6 +7,10 @@ var categorySchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    img: {
+      type: String,
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );

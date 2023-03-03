@@ -4,6 +4,7 @@ const CouponModel = require("../../models/coupon/couponModel");
 const getServiceById = require("../../services/common/getSerciceById");
 const updateService = require("../../services/common/updateService");
 const deleteService = require("../../services/common/deleteService");
+const validateCouponCodeService = require("../../services/validateCouponCode/validateCouponCodeService");
 
 exports.createCoupon = async (req, res) => {
   let result = await createService(req, CouponModel);
@@ -29,5 +30,10 @@ exports.updateCoupon = async (req, res) => {
 
 exports.deleteCoupon = async (req, res) => {
   let result = await deleteService(req, CouponModel);
+  return res.status(200).json(result);
+};
+
+exports.validateCouponCode = async (req, res) => {
+  let result = await validateCouponCodeService(req, CouponModel);
   return res.status(200).json(result);
 };

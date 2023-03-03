@@ -27,6 +27,7 @@ const {
   getCouponDetailsById,
   updateCoupon,
   deleteCoupon,
+  validateCouponCode,
 } = require("../controllers/coupon/couponController");
 const {
   createOrder,
@@ -296,6 +297,12 @@ router.get(
   verifyAuthMiddleware,
   verifyAdminMiddleware,
   deleteCoupon
+);
+router.post(
+  "/validate-coupon-code",
+  verifyAuthMiddleware,
+  verifyAdminMiddleware,
+  validateCouponCode
 );
 
 // ------------------------- Upload Img -------------------------------------------------------------
